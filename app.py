@@ -28,7 +28,7 @@ with open("scaler.pkl", "rb") as scaler_file:
 from baseModel import Iris_data_specs
 
 # HTML
-from fastapi import Request
+from fastapi import Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
@@ -47,20 +47,17 @@ async def ok():
 # model API
 # get the html
 @app.get('/predict', response_class=HTMLResponse)
-async def make_predictions(request: Request, data:Iris_data_specs):
+async def make_predictions(request: Request):
     return templates.TemplateResponse("index.html", {'request':request})
 
 
-@app.post('/predict')
-async def make_predictions(data:Iris_data_specs):
-    data = data.dict() # convert data to a dictionary
-    sepal_length_cm = data['sepal_length_cm']
-    sepal_width_cm = data['sepal_width_cm']
-    petal_length_cm = data['petal_length_cm'] 
-    petal_width_cm = data['petal_width_cm']
+@app.post('/predict', response_class=HTMLResponse)
+async def make_predictions(request: Request, sepal_length:float=Form(...), sepal_width:float=Form(...), petal_length:float=Form(...), petal_width:float=Form(...)):
+
+    entry = [sepal_length, sepal_width, petal_length, petal_width]
 
     # transform data
-    entry = scaler.transform([[sepal_length_cm, sepal_width_cm, petal_length_cm, petal_width_cm]])
+    entry = scaler.transform([entry])
 
     prediction = model.predict(entry)
 
@@ -71,7 +68,33 @@ async def make_predictions(data:Iris_data_specs):
     elif prediction[0] == 2:
         prediction = 'Virginica'
 
-    return {'prediction' : prediction}
+    return templates.TemplateResponse("index.html", {'request':request, 'prediction':prediction})
+
+
+
+
+# WITH BASEMODEL
+# @app.post('/predict', response_class=HTMLResponse)
+# async def make_predictions(request: Request, data:Iris_data_specs):
+#     data = data.dict() # convert data to a dictionary
+#     sepal_length_cm = data['sepal_length_cm']
+#     sepal_width_cm = data['sepal_width_cm']
+#     petal_length_cm = data['petal_length_cm'] 
+#     petal_width_cm = data['petal_width_cm']
+
+#     # transform data
+#     entry = scaler.transform([[sepal_length_cm, sepal_width_cm, petal_length_cm, petal_width_cm]])
+
+#     prediction = model.predict(entry)
+
+#     if prediction[0] == 0:
+#         prediction = 'Setosa'
+#     elif prediction[0] == 1:
+#         prediction = 'Versicolor'
+#     elif prediction[0] == 2:
+#         prediction = 'Virginica'
+
+#     return templates.TemplateResponse("index.html", {'request':request, 'prediction':prediction})
 
 
 
