@@ -32,10 +32,14 @@ from fastapi import Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
+#CSS
+from fastapi.staticfiles import StaticFiles
 
 # app objects
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+# mount css to api
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 # on load
