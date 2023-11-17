@@ -3,8 +3,6 @@ THIS APP DOESN'T WORK WELL, THERE'S A SCALING ISSUE IN THE MACHINE LEARNING MODE
 
 """
 
-
-
 # FastAPI module
 from fastapi import FastAPI
 import uvicorn
@@ -29,20 +27,32 @@ with open("scaler.pkl", "rb") as scaler_file:
 # data type specs
 from baseModel import Iris_data_specs
 
+# HTML
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 
 # app objects
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
 
 # on load
 @app.get('/')
-def ok():
+async def ok():
     return {'status code':'200'}
 
 
 # model API
+# get the html
+@app.get('/predict', response_class=HTMLResponse)
+async def make_predictions(request: Request, data:Iris_data_specs):
+    return templates.TemplateResponse("index.html", {'request':request})
+
+
 @app.post('/predict')
-def make_predictions(data:Iris_data_specs):
+async def make_predictions(data:Iris_data_specs):
     data = data.dict() # convert data to a dictionary
     sepal_length_cm = data['sepal_length_cm']
     sepal_width_cm = data['sepal_width_cm']
