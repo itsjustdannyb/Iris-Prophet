@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', path='/styles.css')}}">
+    <link rel="stylesheet" href="/static/styles.css">
     <title>Iris Prophet</title>
 </head>
 <body>
     <div class="container">
         <h1>IRIS PROPHET</h1>
+        <h3>This ML model predicts what species an Iris plant is, based on the parameters below</h3>
         <form action="/predict", method="post">
             <label for="sepal_length">Sepal Length(cm)</label>
             <br>
@@ -26,10 +28,13 @@
             <br>
             <input type="text", id="petal_width", name="petal_width">
             <br>
-            <input type="submit" value="Predict">
+            <input type="submit" value="Predict" class="btn">
         </form>
-    </div>
 
-    <h3>The Iris belongs to the <span id="predict">{{prediction}}</span> species</h3>
+        <h3>The Iris belongs to the <span id="predict">{{prediction}}</span> species</h3>
+
+        <h5>created by Bamilosin Daniel</h5>
+        <h6>&copy;2023 BAMS</h6>
+    </div>
 </body>
 </html>
