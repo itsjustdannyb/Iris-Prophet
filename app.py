@@ -58,7 +58,7 @@ async def make_predictions(request: Request):
 @app.post('/predict', response_class=HTMLResponse)
 async def make_predictions(request: Request, sepal_length:float=Form(...), sepal_width:float=Form(...), petal_length:float=Form(...), petal_width:float=Form(...)):
 
-    entry = [sepal_length, sepal_width, petal_length, petal_width]
+    entry = [sepal_length, sepal_width, petal_length,petal_width]
 
     # transform data
     entry = scaler.transform([entry])
@@ -72,6 +72,7 @@ async def make_predictions(request: Request, sepal_length:float=Form(...), sepal
     elif prediction[0] == 2:
         prediction = 'Virginica'
 
+    prediction = f"The iris belongs to the {prediction} species"
     return templates.TemplateResponse("index.html", {'request':request, 'prediction':prediction})
 
 

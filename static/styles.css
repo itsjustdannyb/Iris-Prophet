@@ -28,7 +28,7 @@ h5{
 }
 
 span {
-    color:#854F6C;
+    color:#FBE4D8;
 }
 
 label {
@@ -49,4 +49,8 @@ input{
     background-color: #FBE4D8;
     font-weight: bold;
     color: #190019;
+}
+
+.btn:hover{
+    cursor: pointer;
 }
