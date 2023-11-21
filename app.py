@@ -59,13 +59,16 @@ async def make_predictions(request: Request):
 async def make_predictions(request: Request, sepal_length=Form(...), sepal_width=Form(...), petal_length=Form(...), petal_width=Form(...)):
 
     try:
-        entry = [float(sepal_length), float(sepal_width), float(petal_length), float(petal_width)]
+        # entry = [sepal_length, sepal_width, petal_length, petal_width]
         # for feature in entry:
-        #     if feature != float:
-        #         pass
+        #     if feature == "":
+        #         raise EOFError
         #     else:
-        #         return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
-    except ValueError:
+        #         pass
+
+        entry = [float(sepal_length), float(sepal_width), float(petal_length), float(petal_width)]
+        
+    except (ValueError, EOFError):
         error_message = "Wrong Input, Try Again"
         return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
 
