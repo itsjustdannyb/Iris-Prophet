@@ -56,9 +56,18 @@ async def make_predictions(request: Request):
 
 
 @app.post('/predict', response_class=HTMLResponse)
-async def make_predictions(request: Request, sepal_length:float=Form(...), sepal_width:float=Form(...), petal_length:float=Form(...), petal_width:float=Form(...)):
+async def make_predictions(request: Request, sepal_length=Form(...), sepal_width=Form(...), petal_length=Form(...), petal_width=Form(...)):
 
-    entry = [sepal_length, sepal_width, petal_length,petal_width]
+    try:
+        entry = [float(sepal_length), float(sepal_width), float(petal_length), float(petal_width)]
+        # for feature in entry:
+        #     if feature != float:
+        #         pass
+        #     else:
+        #         return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
+    except ValueError:
+        error_message = "Wrong Input, Try Again"
+        return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
 
     # transform data
     entry = scaler.transform([entry])

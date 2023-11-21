@@ -27,8 +27,12 @@ h5{
     justify-content: center;
 }
 
-span {
+#predict{
     color:#FBE4D8;
+}
+
+#error {
+    color: red;
 }
 
 label {
