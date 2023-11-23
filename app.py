@@ -1,11 +1,13 @@
 """"
-THIS APP DOESN'T WORK WELL, THERE'S A SCALING ISSUE IN THE MACHINE LEARNING MODEL
-
+ML POWERED WEB APP THAT PREDICTS THE SPECIES AN IRIS PLANT BELONGS TO BASED ON CERTAIN PARAMETERS
 """
 
 # FastAPI module
 from fastapi import FastAPI
 import uvicorn
+
+# input validation
+from pydantic import ValidationError
 
 # data handling
 import numpy as np
@@ -65,10 +67,14 @@ async def make_predictions(request: Request, sepal_length=Form(...), sepal_width
         #         raise EOFError
         #     else:
         #         pass
-
-        entry = [float(sepal_length), float(sepal_width), float(petal_length), float(petal_width)]
         
-    except (ValueError, EOFError):
+        
+        entry = [float(sepal_length), float(sepal_width), float(petal_length), float(petal_width)]
+        # if any in entry == None:
+        #     error_message = "No Input, Try Again"
+        #     return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
+            
+    except (ValueError, ValidationError):
         error_message = "Wrong Input, Try Again"
         return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
 

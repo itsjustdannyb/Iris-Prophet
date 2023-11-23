@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from fastapi import Form
 
 # iris data specs
 class Iris_data_specs(BaseModel):
