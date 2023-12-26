@@ -63,6 +63,10 @@ input{
     color: #0B1215;
 }
 
+input:focus-within{
+    caret-color: #0B1215;
+
+}
 
 
 .btn{
