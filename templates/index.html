@@ -9,7 +9,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>IRIS PROPHET</h1>
+        <img src="/img/iris_info.jpeg" alt="The picture of an iris plant with the label of its petals and sepals">
+
+        <h1>* IRIS PROPHET *</h1>
         <h3>This ML model predicts what species an Iris plant is, based on the parameters below</h3>
         <form action="/predict", method="post">
             <label for="sepal_length">Sepal Length(cm)</label>
@@ -32,9 +34,12 @@
         </form>
 
         <h3 id="predict">{{prediction}} <span id="error">{{error_message}}</span></h3>
+    
+    </div>
 
+    <footer class="container">
         <h5>created by Bamilosin Daniel</h5>
         <h6>&copy;2023 BAMS</h6>
-    </div>
+    </footer>
 </body>
 </html>
