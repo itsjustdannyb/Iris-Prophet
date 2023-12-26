@@ -43,7 +43,7 @@ img {
 form {
     background-color: #171717;
     border-radius: 15px;
-    width: 75%;
+    width: 85%;
     padding: 35px;
 }
 
@@ -60,6 +60,7 @@ input{
     margin-bottom: 15px;
     border: 1px solid #0B1215;
     border-radius: 2.5px;
+    color: #0B1215;
 }
 
 
