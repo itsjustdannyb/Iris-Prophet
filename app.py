@@ -59,73 +59,73 @@ async def make_predictions(request: Request):
 
 # without pydantic
 
-# @app.post('/predict', response_class=HTMLResponse)
-# async def make_predictions(request: Request, sepal_length=Form(...), sepal_width=Form(...), petal_length=Form(...), petal_width=Form(...)):
+@app.post('/predict', response_class=HTMLResponse)
+async def make_predictions(request: Request, sepal_length=Form(...), sepal_width=Form(...), petal_length=Form(...), petal_width=Form(...)):
 
-#     try:
-#         # entry = [sepal_length, sepal_width, petal_length, petal_width]
-#         # for feature in entry:
-#         #     if feature == "":
-#         #         raise EOFError
-#         #     else:
-#         #         pass
+    try:
+        # entry = [sepal_length, sepal_width, petal_length, petal_width]
+        # for feature in entry:
+        #     if feature == "":
+        #         raise EOFError
+        #     else:
+        #         pass
         
         
-#         entry = [float(sepal_length), float(sepal_width), float(petal_length), float(petal_width)]
-#         # if any in entry == None:
-#         #     error_message = "No Input, Try Again"
-#         #     return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
+        entry = [float(sepal_length), float(sepal_width), float(petal_length), float(petal_width)]
+        # if any in entry == None:
+        #     error_message = "No Input, Try Again"
+        #     return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
             
-#     except (ValueError, ValidationError):
-#         error_message = "Wrong Input, Try Again"
-#         return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
+    except (ValueError, ValidationError):
+        error_message = "Wrong Input, Try Again"
+        return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
 
-#     # transform data
-#     entry = scaler.transform([entry])
+    # transform data
+    entry = scaler.transform([entry])
 
-#     prediction = model.predict(entry)
+    prediction = model.predict(entry)
 
-#     if prediction[0] == 0:
-#         prediction = 'Setosa'
-#     elif prediction[0] == 1:
-#         prediction = 'Versicolor'
-#     elif prediction[0] == 2:
-#         prediction = 'Virginica'
+    if prediction[0] == 0:
+        prediction = 'Setosa'
+    elif prediction[0] == 1:
+        prediction = 'Versicolor'
+    elif prediction[0] == 2:
+        prediction = 'Virginica'
 
-#     prediction = f"The iris belongs to the {prediction} species"
-#     return templates.TemplateResponse("index.html", {'request':request, 'prediction':prediction})
+    prediction = f"The iris belongs to the {prediction} species"
+    return templates.TemplateResponse("index.html", {'request':request, 'prediction':prediction})
 
 
 
 
 # WITH BASEMODEL
-@app.post('/predict', response_class=HTMLResponse)
-async def make_predictions(request: Request, form_data: Iris_data_specs = Depends(Iris_data_specs.as_form)):
-    try:
-        # data = float(int(data.dict())) # convert data to a dictionary
-        data = data.dict() # convert data to a dictionary
-        sepal_length_cm = data['sepal_length_cm']
-        sepal_width_cm = data['sepal_width_cm']
-        petal_length_cm = data['petal_length_cm'] 
-        petal_width_cm = data['petal_width_cm']
+# @app.post('/predict', response_class=HTMLResponse)
+# async def make_predictions(request: Request, form_data: Iris_data_specs = Depends(Iris_data_specs.as_form)):
+#     try:
+#         # data = float(int(data.dict())) # convert data to a dictionary
+#         data = data.dict() # convert data to a dictionary
+#         sepal_length_cm = data['sepal_length_cm']
+#         sepal_width_cm = data['sepal_width_cm']
+#         petal_length_cm = data['petal_length_cm'] 
+#         petal_width_cm = data['petal_width_cm']
 
-        # transform data
-        entry = scaler.transform([[sepal_length_cm, sepal_width_cm, petal_length_cm, petal_width_cm]])
+#         # transform data
+#         entry = scaler.transform([[sepal_length_cm, sepal_width_cm, petal_length_cm, petal_width_cm]])
 
-        prediction = model.predict(entry)
+#         prediction = model.predict(entry)
 
-        if prediction[0] == 0:
-            prediction = 'Setosa'
-        elif prediction[0] == 1:
-            prediction = 'Versicolor'
-        elif prediction[0] == 2:
-            prediction = 'Virginica'
-    except (ValueError, ValidationError):
-        error_message = "Wrong Input, Try Again"
-        return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
+#         if prediction[0] == 0:
+#             prediction = 'Setosa'
+#         elif prediction[0] == 1:
+#             prediction = 'Versicolor'
+#         elif prediction[0] == 2:
+#             prediction = 'Virginica'
+#     except (ValueError, ValidationError):
+#         error_message = "Wrong Input, Try Again"
+#         return templates.TemplateResponse("index.html", {'request':request, 'error_message':error_message})
 
 
-    return templates.TemplateResponse("index.html", {'request':request, 'prediction':prediction})
+#     return templates.TemplateResponse("index.html", {'request':request, 'prediction':prediction})
 
 
 
